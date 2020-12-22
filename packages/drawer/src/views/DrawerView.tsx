@@ -40,6 +40,7 @@ type Props = DrawerNavigationConfig & {
   state: DrawerNavigationState<ParamListBase>;
   navigation: DrawerNavigationHelpers;
   descriptors: DrawerDescriptorMap;
+  onStateChange:() => void;
 };
 
 const getDefaultDrawerWidth = ({
@@ -89,6 +90,7 @@ export default function DrawerView({
   minSwipeDistance,
   sceneContainerStyle,
   detachInactiveScreens = true,
+  onStateChange = () => {}
 }: Props) {
   const [loaded, setLoaded] = React.useState([state.routes[state.index].key]);
   const dimensions = useWindowDimensions();
@@ -250,6 +252,7 @@ export default function DrawerView({
               renderDrawerContent={renderNavigationView}
               renderSceneContent={renderContent}
               keyboardDismissMode={keyboardDismissMode}
+              onStateChange={onStateChange}
               dimensions={dimensions}
             />
           </DrawerOpenContext.Provider>

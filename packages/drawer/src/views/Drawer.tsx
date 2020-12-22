@@ -97,6 +97,7 @@ type Props = {
   renderDrawerContent: Renderer;
   renderSceneContent: Renderer;
   gestureHandlerProps?: React.ComponentProps<typeof PanGestureHandler>;
+  onStateChange:() => void,
   dimensions: { width: number; height: number };
 };
 
@@ -114,6 +115,7 @@ export default class DrawerView extends React.Component<Props> {
     keyboardDismissMode: 'on-drag',
     hideStatusBar: false,
     statusBarAnimation: 'slide',
+    onStateChange:() => {}
   };
 
   componentDidMount() {
@@ -508,11 +510,24 @@ export default class DrawerView extends React.Component<Props> {
     },
   ]);
 
-  private handleGestureStateChange = event([
+ /*  private handleGestureStateChange = event([
     {
       nativeEvent: {
         state: (s: Animated.Value<number>) => set(this.gestureState, s),
       },
+    },
+  ]); */
+
+  private handleGestureStateChange = event([
+    {
+      nativeEvent: ({ state }) => block([
+        set(this.gestureState, state),
+        call([this.gestureState],(state) => {
+            console.log(state[0],"working");
+            this.props.onStateChange(state);
+        })
+        ])
+      ,
     },
   ]);
 
