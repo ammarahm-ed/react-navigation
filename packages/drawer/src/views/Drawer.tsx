@@ -523,7 +523,6 @@ export default class DrawerView extends React.Component<Props> {
       nativeEvent: ({ state }) => block([
         set(this.gestureState, state),
         call([this.gestureState],(state) => {
-            console.log(state[0],"working");
             this.props.onStateChange(state);
         })
         ])
